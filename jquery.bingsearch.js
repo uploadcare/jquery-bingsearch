@@ -77,8 +77,8 @@
             // Allow cross-site
             $.support.cors = true;
             $.ajax({
-                beforeSend: function (xhr) {  
-                    xhr.setRequestHeader("Authorization", authHeader);  
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", authHeader);
                 },
                 url: url,
                 error:  function(xhr, statusText, ex) {
@@ -128,6 +128,22 @@
                                 'DisplayUrl': cur.DisplayUrl,
                                 'Metadata': curMetadata
                             };
+                            if (curMetadata.ResultType == 'ImageResult') {
+                                $.extend(curClient, {
+                                    ContentType: cur.ContentType,
+                                    FileSize: cur.FileSize,
+                                    Heigth: cur.Heigth,
+                                    Width: cur.Width,
+                                    MediaUrl: cur.MediaUrl,
+                                    Thumbnail: {
+                                        ContentType: cur.Thumbnail.ContentType,
+                                        FileSize: cur.Thumbnail.FileSize,
+                                        Heigth: cur.Thumbnail.Heigth,
+                                        Width: cur.Thumbnail.Width,
+                                        MediaUrl: cur.Thumbnail.MediaUrl
+                                    }
+                                });
+                            }
 
                             if (settings.debug) {
                                 console.log("Bing Search: Result: \nID: " + (curClient.ID || 'null')
@@ -151,5 +167,5 @@
 
         return this;
     };
- 
+
 }( jQuery ));
